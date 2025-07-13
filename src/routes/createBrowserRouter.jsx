@@ -1,5 +1,6 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { Home } from '@pages/home';
+import { Post } from '@pages/post';
 import { Unauthorized } from '@pages/unauthorized';
 import { ROUTES, PrivateRoute } from '@routes';
 
@@ -18,6 +19,7 @@ export const router = createBrowserRouter(
       {/* <Route path={ROUTES.HOME} element={createPrivateRoute(Home)} /> */}
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.UN_AUTHORIZED} element={<Unauthorized />} />
+      <Route path={ROUTES.POST} element={<Post />} />
     </>
   ),
   { basename: '/app' }
