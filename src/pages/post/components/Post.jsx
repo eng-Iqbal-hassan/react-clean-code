@@ -5,6 +5,7 @@ const POSTS_PER_PAGE = 8;
 
 export function Post() {
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
   const postData = useQuery({
     queryKey: ['post', page],
     queryFn: async () => {
@@ -14,22 +15,33 @@ export function Post() {
       return Object.values(response.data);
     },
   });
+  const filteredPosts = postData.data?.filter(post => post.title.toLowerCase().includes(search.toLowerCase())) || [];
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 p-5 h-[90vh]">
+      <div className="flex justify-between items-center px-5 pt-5">
+        <h2>Posts</h2>
+        <input
+          type="text"
+          placeholder="Search by title..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="w-[200px] px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 p-5 h-[84vh]">
         {postData.isSuccess &&
-          postData.data.map((value, index) => (
+          filteredPosts.map((value, index) => (
             <div
               key={index}
-              className="bg-white shadow-md border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow h-[40vh]"
+              className="bg-white shadow-md border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow h-[38vh]"
             >
               <h2 className="text-lg font-semibold mb-2">{value.title}</h2>
               <p className="text-gray-600">{value.body}</p>
             </div>
           ))}
       </div>
-      <div className="flex justify-center items-center gap-4 mt-6">
+      <div className="flex justify-center items-center gap-4">
         <button
           onClick={() => setPage(prev => Math.max(prev - 1, 1))}
           disabled={page === 1}
