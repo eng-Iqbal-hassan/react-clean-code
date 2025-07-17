@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PostCard from '@common/components/PostCard';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 const POSTS_PER_PAGE = 8;
@@ -31,15 +32,7 @@ export function Post() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 p-5 h-[84vh]">
         {postData.isSuccess &&
-          filteredPosts.map((value, index) => (
-            <div
-              key={index}
-              className="bg-white shadow-md border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow h-[38vh]"
-            >
-              <h2 className="text-lg font-semibold mb-2">{value.title}</h2>
-              <p className="text-gray-600">{value.body}</p>
-            </div>
-          ))}
+          filteredPosts.map((value, index) => <PostCard key={index} title={value.title} body={value.body} />)}
       </div>
       <div className="flex justify-center items-center gap-4">
         <button
